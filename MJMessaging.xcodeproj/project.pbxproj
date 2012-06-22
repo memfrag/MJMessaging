@@ -10,6 +10,13 @@
 		5BEAC3AF1594978C0051E0E8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAC3AE1594978C0051E0E8 /* Foundation.framework */; };
 		5BEAC3C41594996A0051E0E8 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */; };
 		5BEAC3C51594996A0051E0E8 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3C31594996A0051E0E8 /* GCDAsyncSocket.m */; };
+		5BEAC3C915949A960051E0E8 /* MJMessageClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C715949A960051E0E8 /* MJMessageClient.h */; };
+		5BEAC3CA15949A960051E0E8 /* MJMessageClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3C815949A960051E0E8 /* MJMessageClient.m */; };
+		5BEAC3D115949AC60051E0E8 /* MJMessageClientProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */; };
+		5BEAC3D215949AC60051E0E8 /* MJMessageClientProxyImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CD15949AC60051E0E8 /* MJMessageClientProxyImpl.h */; };
+		5BEAC3D315949AC60051E0E8 /* MJMessageClientProxyImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3CE15949AC60051E0E8 /* MJMessageClientProxyImpl.m */; };
+		5BEAC3D415949AC60051E0E8 /* MJMessageServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */; };
+		5BEAC3D515949AC60051E0E8 /* MJMessageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3D015949AC60051E0E8 /* MJMessageServer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +26,13 @@
 		5BEAC3B31594978C0051E0E8 /* MJMessaging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MJMessaging.h; sourceTree = "<group>"; };
 		5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
 		5BEAC3C31594996A0051E0E8 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		5BEAC3C715949A960051E0E8 /* MJMessageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJMessageClient.h; sourceTree = "<group>"; };
+		5BEAC3C815949A960051E0E8 /* MJMessageClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJMessageClient.m; sourceTree = "<group>"; };
+		5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJMessageClientProxy.h; sourceTree = "<group>"; };
+		5BEAC3CD15949AC60051E0E8 /* MJMessageClientProxyImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJMessageClientProxyImpl.h; sourceTree = "<group>"; };
+		5BEAC3CE15949AC60051E0E8 /* MJMessageClientProxyImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJMessageClientProxyImpl.m; sourceTree = "<group>"; };
+		5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJMessageServer.h; sourceTree = "<group>"; };
+		5BEAC3D015949AC60051E0E8 /* MJMessageServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJMessageServer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				5BEAC3B31594978C0051E0E8 /* MJMessaging.h */,
+				5BEAC3C615949A810051E0E8 /* Client */,
+				5BEAC3CB15949AB10051E0E8 /* Server */,
 				5BEAC3BB159499220051E0E8 /* Vendor */,
 				5BEAC3B11594978C0051E0E8 /* Supporting Files */,
 			);
@@ -94,6 +110,27 @@
 			path = Vendor/GCDAsyncSocket;
 			sourceTree = SOURCE_ROOT;
 		};
+		5BEAC3C615949A810051E0E8 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3C715949A960051E0E8 /* MJMessageClient.h */,
+				5BEAC3C815949A960051E0E8 /* MJMessageClient.m */,
+			);
+			name = Client;
+			sourceTree = "<group>";
+		};
+		5BEAC3CB15949AB10051E0E8 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */,
+				5BEAC3CD15949AC60051E0E8 /* MJMessageClientProxyImpl.h */,
+				5BEAC3CE15949AC60051E0E8 /* MJMessageClientProxyImpl.m */,
+				5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */,
+				5BEAC3D015949AC60051E0E8 /* MJMessageServer.m */,
+			);
+			name = Server;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -102,6 +139,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BEAC3C41594996A0051E0E8 /* GCDAsyncSocket.h in Headers */,
+				5BEAC3C915949A960051E0E8 /* MJMessageClient.h in Headers */,
+				5BEAC3D115949AC60051E0E8 /* MJMessageClientProxy.h in Headers */,
+				5BEAC3D215949AC60051E0E8 /* MJMessageClientProxyImpl.h in Headers */,
+				5BEAC3D415949AC60051E0E8 /* MJMessageServer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +199,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BEAC3C51594996A0051E0E8 /* GCDAsyncSocket.m in Sources */,
+				5BEAC3CA15949A960051E0E8 /* MJMessageClient.m in Sources */,
+				5BEAC3D315949AC60051E0E8 /* MJMessageClientProxyImpl.m in Sources */,
+				5BEAC3D515949AC60051E0E8 /* MJMessageServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

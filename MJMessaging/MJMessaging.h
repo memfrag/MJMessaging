@@ -6,5 +6,6 @@
 //  Copyright (c) 2012 Martin Johannesson. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
+#import "MJBonjourService.h"
+#import "MJMessageServer.h"
+#import "MJMessageClient.h"
