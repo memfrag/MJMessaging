@@ -42,6 +42,7 @@
 
 @implementation MJMessageServer
 
+@synthesize verboseLogging = _verboseLogging;
 @synthesize delegate = _delegate;
 @synthesize serverSocket = _serverSocket;
 @synthesize clients = _clients;
@@ -93,10 +94,12 @@
 
 - (void)publishServiceWithName:(NSString *)name type:(NSString *)type domain:(NSString *)domain
 {
-	self.service = [[NSNetService alloc] initWithDomain:domain type:type name:name port:self.serverSocket.localPort];
-	[self.service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-	self.service.delegate = self;
-	[self.service publish];
+    if (self.serverSocket) {
+        self.service = [[NSNetService alloc] initWithDomain:domain type:type name:name port:self.serverSocket.localPort];
+        [self.service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+        self.service.delegate = self;
+        [self.service publish];
+    }
 }
 
 - (void)unpublishService
@@ -167,7 +170,7 @@
         sscanf(length, "%x", &messageSize); 
         
         if (messageSize > kMJMaximumMessageSize) {
-            NSLog(@"Server: Message size (%u) exceeds max message size.", messageSize);
+            if (self.verboseLogging) NSLog(@"Server: Message size (%u) exceeds max message size.", messageSize);
             [socket disconnect];
             return;
         }
@@ -182,7 +185,7 @@
                                                                 options:0
                                                                   error:&error];
         if (error) {
-            NSLog(@"Server: %@", error.localizedDescription);
+            if (self.verboseLogging) NSLog(@"Server: %@", error.localizedDescription);
             [socket disconnect];
             return;
         }
@@ -195,7 +198,7 @@
                              tag:kMJMessageSizeTag];
 
     } else {
-        NSLog(@"Server: Unknown tag in read of socket data %ld", tag);
+        if (self.verboseLogging) NSLog(@"Server: Unknown tag in read of socket data %ld", tag);
         [socket disconnect];
     }
 }

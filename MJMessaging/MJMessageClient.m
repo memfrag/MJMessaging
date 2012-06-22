@@ -43,6 +43,7 @@
 
 @implementation MJMessageClient
 
+@synthesize verboseLogging = _verboseLogging;
 @synthesize delegate = _delegate;
 @synthesize socket = _socket;
 
@@ -143,7 +144,7 @@
         sscanf(length, "%x", &messageSize); 
         
         if (messageSize > kMJMaximumMessageSize) {
-            NSLog(@"Client: Message size (%u) exceeds max message size.", messageSize);
+            if (self.verboseLogging) NSLog(@"Client: Message size (%u) exceeds max message size.", messageSize);
             [socket disconnect];
             return;
         }
@@ -158,7 +159,7 @@
                                                                   error:&error];
         
         if (error) {
-            NSLog(@"Client: %@", error.localizedDescription);
+            if (self.verboseLogging) NSLog(@"Client: %@", error.localizedDescription);
             [socket disconnect];
             return;
         }
@@ -171,7 +172,7 @@
     }
     else
 	{
-        NSLog(@"Client: Unknown tag in read of socket data %ld", tag);
+        if (self.verboseLogging) NSLog(@"Client: Unknown tag in read of socket data %ld", tag);
         [socket disconnect];
     }
 }

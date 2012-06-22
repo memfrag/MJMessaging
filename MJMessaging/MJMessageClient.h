@@ -32,6 +32,8 @@
 
 @interface MJMessageClient : NSObject <NSNetServiceDelegate, GCDAsyncSocketDelegate>
 
+@property (nonatomic, assign) BOOL verboseLogging;
+
 @property (nonatomic, weak) IBOutlet id<MJMessageClientDelegate> delegate;
 
 - (void)connectToService:(NSNetService *)service;
