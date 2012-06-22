@@ -1,0 +1,233 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5BEAC3AF1594978C0051E0E8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAC3AE1594978C0051E0E8 /* Foundation.framework */; };
+		5BEAC3B51594978C0051E0E8 /* MJMessaging.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3B41594978C0051E0E8 /* MJMessaging.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5BEAC3AB1594978C0051E0E8 /* libMJMessaging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMJMessaging.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BEAC3AE1594978C0051E0E8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5BEAC3B21594978C0051E0E8 /* MJMessaging-Prefix.pch */ = {isa = PBXFileReference; path = "MJMessaging-Prefix.pch"; sourceTree = "<group>"; };
+		5BEAC3B31594978C0051E0E8 /* MJMessaging.h */ = {isa = PBXFileReference; path = MJMessaging.h; sourceTree = "<group>"; };
+		5BEAC3B41594978C0051E0E8 /* MJMessaging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MJMessaging.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5BEAC3A81594978C0051E0E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BEAC3AF1594978C0051E0E8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5BEAC3A01594978B0051E0E8 = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3B01594978C0051E0E8 /* MJMessaging */,
+				5BEAC3AD1594978C0051E0E8 /* Frameworks */,
+				5BEAC3AC1594978C0051E0E8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5BEAC3AC1594978C0051E0E8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3AB1594978C0051E0E8 /* libMJMessaging.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5BEAC3AD1594978C0051E0E8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3AE1594978C0051E0E8 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5BEAC3B01594978C0051E0E8 /* MJMessaging */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3B31594978C0051E0E8 /* MJMessaging.h */,
+				5BEAC3B41594978C0051E0E8 /* MJMessaging.m */,
+				5BEAC3B11594978C0051E0E8 /* Supporting Files */,
+			);
+			path = MJMessaging;
+			sourceTree = "<group>";
+		};
+		5BEAC3B11594978C0051E0E8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3B21594978C0051E0E8 /* MJMessaging-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		5BEAC3A91594978C0051E0E8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		5BEAC3AA1594978C0051E0E8 /* MJMessaging */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5BEAC3B81594978C0051E0E8 /* Build configuration list for PBXNativeTarget "MJMessaging" */;
+			buildPhases = (
+				5BEAC3A71594978C0051E0E8 /* Sources */,
+				5BEAC3A81594978C0051E0E8 /* Frameworks */,
+				5BEAC3A91594978C0051E0E8 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MJMessaging;
+			productName = MJMessaging;
+			productReference = 5BEAC3AB1594978C0051E0E8 /* libMJMessaging.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5BEAC3A21594978B0051E0E8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 5BEAC3A51594978B0051E0E8 /* Build configuration list for PBXProject "MJMessaging" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5BEAC3A01594978B0051E0E8;
+			productRefGroup = 5BEAC3AC1594978C0051E0E8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5BEAC3AA1594978C0051E0E8 /* MJMessaging */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5BEAC3A71594978C0051E0E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BEAC3B51594978C0051E0E8 /* MJMessaging.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5BEAC3B61594978C0051E0E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5BEAC3B71594978C0051E0E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5BEAC3B91594978C0051E0E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/MJMessaging.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MJMessaging/MJMessaging-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5BEAC3BA1594978C0051E0E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/MJMessaging.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MJMessaging/MJMessaging-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5BEAC3A51594978B0051E0E8 /* Build configuration list for PBXProject "MJMessaging" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5BEAC3B61594978C0051E0E8 /* Debug */,
+				5BEAC3B71594978C0051E0E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5BEAC3B81594978C0051E0E8 /* Build configuration list for PBXNativeTarget "MJMessaging" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5BEAC3B91594978C0051E0E8 /* Debug */,
+				5BEAC3BA1594978C0051E0E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5BEAC3A21594978B0051E0E8 /* Project object */;
+}
