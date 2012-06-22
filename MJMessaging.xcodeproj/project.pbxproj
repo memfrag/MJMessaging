@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5BEAC3AF1594978C0051E0E8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAC3AE1594978C0051E0E8 /* Foundation.framework */; };
-		5BEAC3B51594978C0051E0E8 /* MJMessaging.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3B41594978C0051E0E8 /* MJMessaging.m */; };
+		5BEAC3C41594996A0051E0E8 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */; };
+		5BEAC3C51594996A0051E0E8 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3C31594996A0051E0E8 /* GCDAsyncSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,7 +17,8 @@
 		5BEAC3AE1594978C0051E0E8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5BEAC3B21594978C0051E0E8 /* MJMessaging-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MJMessaging-Prefix.pch"; sourceTree = "<group>"; };
 		5BEAC3B31594978C0051E0E8 /* MJMessaging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MJMessaging.h; sourceTree = "<group>"; };
-		5BEAC3B41594978C0051E0E8 /* MJMessaging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MJMessaging.m; sourceTree = "<group>"; };
+		5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		5BEAC3C31594996A0051E0E8 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				5BEAC3B31594978C0051E0E8 /* MJMessaging.h */,
-				5BEAC3B41594978C0051E0E8 /* MJMessaging.m */,
+				5BEAC3BB159499220051E0E8 /* Vendor */,
 				5BEAC3B11594978C0051E0E8 /* Supporting Files */,
 			);
 			path = MJMessaging;
@@ -74,6 +76,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		5BEAC3BB159499220051E0E8 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3C11594996A0051E0E8 /* GCDAsyncSocket */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		5BEAC3C11594996A0051E0E8 /* GCDAsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */,
+				5BEAC3C31594996A0051E0E8 /* GCDAsyncSocket.m */,
+			);
+			name = GCDAsyncSocket;
+			path = Vendor/GCDAsyncSocket;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -81,6 +101,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BEAC3C41594996A0051E0E8 /* GCDAsyncSocket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +131,9 @@
 		5BEAC3A21594978B0051E0E8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = MJ;
 				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Martin Johannesson";
 			};
 			buildConfigurationList = 5BEAC3A51594978B0051E0E8 /* Build configuration list for PBXProject "MJMessaging" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -134,7 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BEAC3B51594978C0051E0E8 /* MJMessaging.m in Sources */,
+				5BEAC3C51594996A0051E0E8 /* GCDAsyncSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
