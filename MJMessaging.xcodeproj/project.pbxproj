@@ -47,6 +47,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B0A92C615949DDB00EE868D /* Export */ = {
+			isa = PBXGroup;
+			children = (
+				5BEAC3B31594978C0051E0E8 /* MJMessaging.h */,
+				5BEAC3C715949A960051E0E8 /* MJMessageClient.h */,
+				5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */,
+			);
+			name = Export;
+			sourceTree = "<group>";
+		};
 		5BEAC3A01594978B0051E0E8 = {
 			isa = PBXGroup;
 			children = (
@@ -75,9 +85,12 @@
 		5BEAC3B01594978C0051E0E8 /* MJMessaging */ = {
 			isa = PBXGroup;
 			children = (
-				5BEAC3B31594978C0051E0E8 /* MJMessaging.h */,
-				5BEAC3C615949A810051E0E8 /* Client */,
-				5BEAC3CB15949AB10051E0E8 /* Server */,
+				5B0A92C615949DDB00EE868D /* Export */,
+				5BEAC3C815949A960051E0E8 /* MJMessageClient.m */,
+				5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */,
+				5BEAC3CD15949AC60051E0E8 /* MJMessageClientProxyImpl.h */,
+				5BEAC3CE15949AC60051E0E8 /* MJMessageClientProxyImpl.m */,
+				5BEAC3D015949AC60051E0E8 /* MJMessageServer.m */,
 				5BEAC3BB159499220051E0E8 /* Vendor */,
 				5BEAC3B11594978C0051E0E8 /* Supporting Files */,
 			);
@@ -109,27 +122,6 @@
 			name = GCDAsyncSocket;
 			path = Vendor/GCDAsyncSocket;
 			sourceTree = SOURCE_ROOT;
-		};
-		5BEAC3C615949A810051E0E8 /* Client */ = {
-			isa = PBXGroup;
-			children = (
-				5BEAC3C715949A960051E0E8 /* MJMessageClient.h */,
-				5BEAC3C815949A960051E0E8 /* MJMessageClient.m */,
-			);
-			name = Client;
-			sourceTree = "<group>";
-		};
-		5BEAC3CB15949AB10051E0E8 /* Server */ = {
-			isa = PBXGroup;
-			children = (
-				5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */,
-				5BEAC3CD15949AC60051E0E8 /* MJMessageClientProxyImpl.h */,
-				5BEAC3CE15949AC60051E0E8 /* MJMessageClientProxyImpl.m */,
-				5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */,
-				5BEAC3D015949AC60051E0E8 /* MJMessageServer.m */,
-			);
-			name = Server;
-			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -293,6 +285,7 @@
 				5BEAC3BA1594978C0051E0E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
