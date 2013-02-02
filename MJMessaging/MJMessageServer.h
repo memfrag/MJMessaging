@@ -35,7 +35,7 @@
 
 @property (nonatomic, weak) id<MJMessageServerDelegate> delegate;
 
-- (BOOL)startWithPort:(uint16_t)port error:(__autoreleasing NSError **)error;
+- (void)startWithPort:(uint16_t)port;
 - (void)stop;
 
 // Type should be on the form @"_whatever._tcp."
@@ -50,6 +50,8 @@
 
 
 @protocol MJMessageServerDelegate <NSObject>
+
+- (void)serverDidNotStart:(MJMessageServer *)server error:(NSError *)error;
 
 - (void)server:(MJMessageServer *)server clientDidConnect:(id<MJMessageClientProxy>)client;
 - (void)server:(MJMessageServer *)server clientDidDisconnect:(id<MJMessageClientProxy>)client;

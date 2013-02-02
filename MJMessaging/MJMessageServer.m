@@ -28,6 +28,10 @@
 #import "GCDAsyncSocket.h"
 #import "MJMessageClientProxyImpl.h"
 
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#endif
+
 #define kMJMessageSizeTag 0L
 #define kMJMessageContentTag 1L
 
@@ -39,35 +43,64 @@
     NSMutableArray *_connectedSockets;
     NSNetService *_service;
     NSMutableArray *_clients;
+    
+    uint16_t _port;
 }
 
 - (id)init
 {
     self = [super init];
     if (self) {
+        [self registerForNotifications];
+        
         _socketQueue = dispatch_queue_create("socketQueue", NULL);
     }
     
     return self;
 }
 
-- (BOOL)startWithPort:(uint16_t)port error:(__autoreleasing NSError **)error;
+#pragma mark - App state notifications
+
+- (void)registerForNotifications
 {
-    *error = nil;
+#if TARGET_OS_IPHONE
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(stop)
+                                                 name:UIApplicationWillTerminateNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(suspendServer)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(resumeServer)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+#endif
+}
+
+#pragma mark - Starting and stopping the server
+
+- (void)startWithPort:(uint16_t)port;
+{
     _connectedSockets = [NSMutableArray arrayWithCapacity:10];
     _clients = [NSMutableArray arrayWithCapacity:10];
     
     _serverSocket = [[GCDAsyncSocket alloc] initWithDelegate:self
                                                delegateQueue:_socketQueue];
     
-    if(![_serverSocket acceptOnPort:port error:error])
+    NSError __autoreleasing *error = nil;
+    if(![_serverSocket acceptOnPort:port error:&error])
     {
         NSLog(@"ERROR: %@", @"Unable to accept on server socket.");
         _serverSocket = nil;
-        return NO;
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(serverDidNotStart:error:)]) {
+            [self.delegate serverDidNotStart:self error:error];
+        }
     }
-    
-    return YES;
 }
 
 - (void)stop
@@ -83,19 +116,31 @@
     
     [_connectedSockets removeAllObjects];
     _connectedSockets = nil;
-
+    
     [_clients removeAllObjects];
     _clients = nil;
 }
 
+- (void)resumeServer
+{
+    [self startWithPort:_port];
+}
+
+- (void)suspendServer
+{
+    [self stop];
+}
+
+#pragma mark - GCDAsyncSocket delegate methods
+
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
-	// This method is executed on the socketQueue (not the main thread)	
+	// This method is executed on the socketQueue (not the main thread)
     MJMessageClientProxyImpl *newClient;
-
+    
 	@synchronized(_connectedSockets) {
 		[_connectedSockets addObject:newSocket];
-
+        
         newClient = [[MJMessageClientProxyImpl alloc] initWithSocket:newSocket];
         [_clients addObject:newClient];
         
@@ -141,7 +186,7 @@
         }
         
         [socket readDataToLength:messageSize withTimeout:-1 tag:kMJMessageContentTag];
-    } else if (tag == kMJMessageContentTag) {        
+    } else if (tag == kMJMessageContentTag) {
         __autoreleasing NSError *error = nil;
         NSDictionary *message = [NSJSONSerialization JSONObjectWithData:data
                                                                 options:0
@@ -151,7 +196,7 @@
             [socket disconnect];
             return;
         }
-
+        
         MJMessageClientProxyImpl *client = socket.userData;
         
         if (client.delegate && [client.delegate respondsToSelector:@selector(didReceiveMessage:fromClient:)]) {
@@ -177,10 +222,12 @@
 - (void)sendMessage:(NSDictionary *)message
            toClient:(id<MJMessageClientProxy>)client
 {
-    [client sendMessage:message];
+    if (client) {
+        [client sendMessage:message];
+    }
 }
 
-#pragma mark - Publish Service Using Bonjour
+#pragma mark - Publish service using Bonjour
 
 - (void)publishServiceWithName:(NSString *)name type:(NSString *)type
 {
@@ -202,9 +249,34 @@
 
 - (void)unpublishService
 {
-	[_service stop];
-	[_service removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-	_service = nil;
+    if (_service) {
+        [_service stop];
+        [_service removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+        _service = nil;
+    }
+}
+
+#pragma mark - Bonjour delegates
+
+- (void)netServiceDidPublish:(NSNetService *)service
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(serviceDidPublish:)]) {
+        [self.delegate serviceDidPublish:service];
+    }
+}
+
+- (void)netService:(NSNetService *)service didNotPublish:(NSDictionary *)dict
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(serviceDidNotPublish:error:)]) {
+        [self.delegate serviceDidNotPublish:service error:dict];
+    }
+}
+
+- (void)netServiceDidStop:(NSNetService *)service
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(serviceDidStop:)]) {
+        [self.delegate serviceDidStop:service];
+    }
 }
 
 @end
