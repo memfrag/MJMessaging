@@ -38,10 +38,6 @@
 
 @implementation MJMessageClientProxyImpl
 
-@synthesize delegate = _delegate;
-@synthesize context = _context;
-@synthesize socket = _socket;
-
 - (id)initWithSocket:(id)socket
 {
     self = [super init];
@@ -66,8 +62,8 @@
     NSData *sizeData = [NSData dataWithBytes:messageSizeStr
                                       length:8];
     
-    [self.socket writeData:sizeData withTimeout:-1.0 tag:kMJMessageSizeTag];
-    [self.socket writeData:jsonData withTimeout:-1.0 tag:kMJMessageContentTag];
+    [self.socket writeData:sizeData withTimeout:-1 tag:kMJMessageSizeTag];
+    [self.socket writeData:jsonData withTimeout:-1 tag:kMJMessageContentTag];
 }
 
 @end

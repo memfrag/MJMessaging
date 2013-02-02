@@ -24,7 +24,7 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "MJMessageClientProxy.h"
 
 @interface MJMessageClientProxyImpl : NSObject <MJMessageClientProxy>
@@ -33,7 +33,7 @@
 
 @property (nonatomic, weak) id context;
 
-@property (nonatomic, strong) id socket;
+@property (nonatomic, weak) id socket;
 
 - (id)initWithSocket:(id)socket;
 

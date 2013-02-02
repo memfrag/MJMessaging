@@ -25,6 +25,7 @@
 //
 
 #import "MJMessageServer.h"
+#import "GCDAsyncSocket.h"
 #import "MJMessageClientProxyImpl.h"
 
 #define kMJMessageSizeTag 0L
@@ -32,44 +33,37 @@
 
 #define kMJMaximumMessageSize 1000000
 
-@interface MJMessageServer ()
-
-@property (nonatomic, strong) GCDAsyncSocket *serverSocket; 
-@property (nonatomic, strong) NSMutableSet *clients;
-@property (nonatomic, strong) NSNetService *service;
-
-@end
-
-@implementation MJMessageServer
-
-@synthesize verboseLogging = _verboseLogging;
-@synthesize delegate = _delegate;
-@synthesize serverSocket = _serverSocket;
-@synthesize clients = _clients;
-@synthesize service = _service;
+@implementation MJMessageServer {
+    dispatch_queue_t _socketQueue;
+    GCDAsyncSocket *_serverSocket;
+    NSMutableArray *_connectedSockets;
+    NSNetService *_service;
+    NSMutableArray *_clients;
+}
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        self.clients = [NSMutableSet setWithCapacity:10];
+        _socketQueue = dispatch_queue_create("socketQueue", NULL);
     }
     
     return self;
 }
 
-#pragma mark - Starting/Stopping Service
-
-- (BOOL)startWithPort:(uint16_t)port error:(__autoreleasing NSError **)error
+- (BOOL)startWithPort:(uint16_t)port error:(__autoreleasing NSError **)error;
 {
     *error = nil;
+    _connectedSockets = [NSMutableArray arrayWithCapacity:10];
+    _clients = [NSMutableArray arrayWithCapacity:10];
     
-    dispatch_queue_t defaultQueue = dispatch_get_global_queue(0, 0);
+    _serverSocket = [[GCDAsyncSocket alloc] initWithDelegate:self
+                                               delegateQueue:_socketQueue];
     
-    self.serverSocket = [[GCDAsyncSocket alloc] initWithDelegate:self
-                                                   delegateQueue:defaultQueue];
-    if (![self.serverSocket acceptOnPort:port error:error]) {
-        self.serverSocket = nil;
+    if(![_serverSocket acceptOnPort:port error:error])
+    {
+        NSLog(@"ERROR: %@", @"Unable to accept on server socket.");
+        _serverSocket = nil;
         return NO;
     }
     
@@ -78,11 +72,112 @@
 
 - (void)stop
 {
-    if ([self.serverSocket isConnected]) {
-        [self.serverSocket disconnect];
+    if ([_serverSocket isConnected]) {
+        [_serverSocket disconnect];
+    }
+    _serverSocket = nil;
+    
+    for (GCDAsyncSocket *socket in _connectedSockets) {
+        [socket disconnect];
     }
     
-    self.serverSocket = nil;
+    [_connectedSockets removeAllObjects];
+    _connectedSockets = nil;
+
+    [_clients removeAllObjects];
+    _clients = nil;
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
+{
+	// This method is executed on the socketQueue (not the main thread)	
+    MJMessageClientProxyImpl *newClient;
+
+	@synchronized(_connectedSockets) {
+		[_connectedSockets addObject:newSocket];
+
+        newClient = [[MJMessageClientProxyImpl alloc] initWithSocket:newSocket];
+        [_clients addObject:newClient];
+        
+        newSocket.userData = newClient;
+	}
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(server:clientDidConnect:)]) {
+        [_delegate server:self clientDidConnect:newClient];
+    }
+	
+	[newSocket readDataToLength:8 withTimeout:-1 tag:kMJMessageSizeTag];
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)socket withError:(NSError *)err
+{
+	if (socket != _serverSocket) {
+        @synchronized(_connectedSockets) {
+            [_clients removeObject:socket.userData];
+			[_connectedSockets removeObject:socket];
+		}
+        
+        if (_delegate && [_delegate respondsToSelector:@selector(server:clientDidConnect:)]) {
+            [_delegate server:self clientDidDisconnect:nil];
+        }
+	}
+}
+
+- (void)socket:(GCDAsyncSocket *)socket didReadData:(NSData *)data withTag:(long)tag
+{
+	// This method is executed on the socketQueue (not the main thread)
+    if (tag == kMJMessageSizeTag) {
+        char size[9];
+        strncpy(size, [data bytes], 8);
+        size[8] = 0;
+        
+        uint32_t messageSize;
+        sscanf(size, "%x", &messageSize);
+        
+        if ((messageSize) > kMJMaximumMessageSize) {
+            NSLog(@"ERROR: %@", @"Message exceeds maximum size!");
+            NSAssert(NO, @"ASSERT: This message is too big.");
+            return;
+        }
+        
+        [socket readDataToLength:messageSize withTimeout:-1 tag:kMJMessageContentTag];
+    } else if (tag == kMJMessageContentTag) {        
+        __autoreleasing NSError *error = nil;
+        NSDictionary *message = [NSJSONSerialization JSONObjectWithData:data
+                                                                options:0
+                                                                  error:&error];
+        if (error) {
+            NSLog(@"ERROR: %@", error.localizedDescription);
+            [socket disconnect];
+            return;
+        }
+
+        MJMessageClientProxyImpl *client = socket.userData;
+        
+        if (client.delegate && [client.delegate respondsToSelector:@selector(didReceiveMessage:fromClient:)]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [client.delegate didReceiveMessage:message
+                                        fromClient:client];
+            });
+        }
+        
+        [socket readDataToLength:8 withTimeout:-1 tag:kMJMessageSizeTag];
+    } else {
+        NSAssert(NO, @"ASSERT: This should not happen");
+    }
+}
+
+- (void)sendMessage:(NSDictionary *)message
+{
+	for (MJMessageClientProxyImpl *client in _clients) {
+        [self sendMessage:message toClient:client];
+	}
+}
+
+- (void)sendMessage:(NSDictionary *)message
+           toClient:(id<MJMessageClientProxy>)client
+{
+    [client sendMessage:message];
 }
 
 #pragma mark - Publish Service Using Bonjour
@@ -94,130 +189,22 @@
 
 - (void)publishServiceWithName:(NSString *)name type:(NSString *)type domain:(NSString *)domain
 {
-    if (self.serverSocket) {
-        self.service = [[NSNetService alloc] initWithDomain:domain type:type name:name port:self.serverSocket.localPort];
-        [self.service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-        self.service.delegate = self;
-        [self.service publish];
+    if (_serverSocket) {
+        _service = [[NSNetService alloc] initWithDomain:domain
+                                                   type:type
+                                                   name:name
+                                                   port:_serverSocket.localPort];
+        [_service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+        _service.delegate = self;
+        [_service publish];
     }
 }
 
 - (void)unpublishService
 {
-	[self.service stop];
-	[self.service removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-	self.service = nil;
-}
-
-#pragma mark - Sending Messages
-
-- (void)sendMessage:(NSDictionary *)message
-{
-	for (MJMessageClientProxyImpl *client in self.clients) {
-        [self sendMessage:message toClient:client];
-	}    
-}
-
-- (void)sendMessage:(NSDictionary *)message toClient:(id<MJMessageClientProxy>)client
-{
-    [client sendMessage:message];
-}
-
-#pragma mark - GCDAsyncSocket Delegate Methods
-
-- (void)socket:(GCDAsyncSocket *)socket didAcceptNewSocket:(GCDAsyncSocket *)newSocket
-{
-    MJMessageClientProxyImpl *client = [[MJMessageClientProxyImpl alloc] initWithSocket:newSocket];
-    newSocket.userData = newSocket;
-    [self.clients addObject:client];
-}
-
-- (void)socket:(GCDAsyncSocket *)socket didConnectToHost:(NSString *)host port:(uint16_t)port
-{
-    MJMessageClientProxyImpl *client = socket.userData;
-
-    if ([self.delegate conformsToProtocol:@protocol(MJMessageServerDelegate)]) {
-        [self.delegate server:self clientDidConnect:client];
-    }
-    
-    [socket readDataToLength:8 withTimeout:-1.0 tag:kMJMessageSizeTag];
-}
-
-- (void)socketDidDisconnect:(GCDAsyncSocket *)socket withError:(NSError *)err
-{
-    MJMessageClientProxyImpl *client = socket.userData;
-    client.socket = nil;
-    
-    if ([self.delegate conformsToProtocol:@protocol(MJMessageServerDelegate)]) {
-        [self.delegate server:self clientDidDisconnect:client];
-    }
-    
-    [self.clients removeObject:client];
-    socket.userData = nil;
-}
-
-
-- (void)socket:(GCDAsyncSocket *)socket didReadData:(NSData *)data withTag:(long)tag
-{
-    MJMessageClientProxyImpl *client = socket.userData;
-    
-    if (tag == kMJMessageSizeTag) {
-        char length[9];
-        strncpy(length, [data bytes], 8);
-        length[8] = 0;
-        
-        uint32_t messageSize;
-        sscanf(length, "%x", &messageSize); 
-        
-        if (messageSize > kMJMaximumMessageSize) {
-            if (self.verboseLogging) NSLog(@"Server: Message size (%u) exceeds max message size.", messageSize);
-            [socket disconnect];
-            return;
-        }
-        
-        // Request to read message content
-        [socket readDataToLength:messageSize
-                     withTimeout:-1.0
-                             tag:kMJMessageContentTag];
-    } else if (tag == kMJMessageContentTag) {
-        __autoreleasing NSError *error = nil;
-        NSDictionary *message = [NSJSONSerialization JSONObjectWithData:data
-                                                                options:0
-                                                                  error:&error];
-        if (error) {
-            if (self.verboseLogging) NSLog(@"Server: %@", error.localizedDescription);
-            [socket disconnect];
-            return;
-        }
-        
-        [client.delegate didReceiveMessage:message fromClient:client];
-        
-        // Request to read next message size
-        [socket readDataToLength:8
-                     withTimeout:-1.0
-                             tag:kMJMessageSizeTag];
-
-    } else {
-        if (self.verboseLogging) NSLog(@"Server: Unknown tag in read of socket data %ld", tag);
-        [socket disconnect];
-    }
-}
-
-#pragma mark - Bonjour Net Service Delegate Methods
-
-- (void)netServiceDidPublish:(NSNetService *)service
-{
-    [self.delegate serviceDidPublish:service];
-}
-
-- (void)netServiceDidStop:(NSNetService *)service
-{
-    [self.delegate serviceDidStop:service];
-}
-
-- (void)netService:(NSNetService *)service didNotPublish:(NSDictionary *)dict
-{
-    [self.delegate serviceDidNotPublish:service error:dict];
+	[_service stop];
+	[_service removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+	_service = nil;
 }
 
 @end

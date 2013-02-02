@@ -25,23 +25,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GCDAsyncSocket.h"
 #import "MJMessageClientProxy.h"
+#import "GCDAsyncSocket.h"
 
 @protocol MJMessageServerDelegate;
 
 
 @interface MJMessageServer : NSObject <GCDAsyncSocketDelegate, NSNetServiceDelegate>
 
-@property (nonatomic, assign) BOOL verboseLogging;
-
 @property (nonatomic, weak) id<MJMessageServerDelegate> delegate;
-
-- (id)init;
 
 - (BOOL)startWithPort:(uint16_t)port error:(__autoreleasing NSError **)error;
 - (void)stop;
 
+// Type should be on the form @"_whatever._tcp."
 - (void)publishServiceWithName:(NSString *)name type:(NSString *)type;
 - (void)unpublishService;
 
@@ -56,6 +53,8 @@
 
 - (void)server:(MJMessageServer *)server clientDidConnect:(id<MJMessageClientProxy>)client;
 - (void)server:(MJMessageServer *)server clientDidDisconnect:(id<MJMessageClientProxy>)client;
+
+@optional
 
 // Will be called for each active network interface.
 - (void)serviceDidPublish:(NSNetService *)service;

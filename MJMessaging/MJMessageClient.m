@@ -89,6 +89,26 @@
     }
 }
 
+- (void)connectToHost:(NSString *)host onPort:(uint16_t)port
+{
+    if (self.socket) {
+        [self.socket disconnect];
+    }
+    
+    dispatch_queue_t defaultQueue = dispatch_get_global_queue(0, 0);
+    
+    self.socket = [[GCDAsyncSocket alloc] initWithDelegate:self
+                                             delegateQueue:defaultQueue];
+    
+    NSError *error = nil;
+    [self.socket connectToHost:host onPort:port error:&error];
+    
+    if (error) {
+        [self.delegate client:self didNotConnectToAddress:nil error:error];
+    }
+}
+
+
 - (void)disconnect
 {
 	if (self.socket && [self.socket isConnected]) {

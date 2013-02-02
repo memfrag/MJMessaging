@@ -40,6 +40,8 @@
 
 - (void)connectToServiceByAddress:(NSData *)serviceAddress;
 
+- (void)connectToHost:(NSString *)host onPort:(uint16_t)port;
+
 - (void)disconnect;
 
 - (void)sendMessage:(NSDictionary *)message;
