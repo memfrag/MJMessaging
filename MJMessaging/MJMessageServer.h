@@ -51,6 +51,7 @@
 
 @protocol MJMessageServerDelegate <NSObject>
 
+- (void)serverDidStart:(MJMessageServer *)server;
 - (void)serverDidNotStart:(MJMessageServer *)server error:(NSError *)error;
 
 - (void)server:(MJMessageServer *)server clientDidConnect:(id<MJMessageClientProxy>)client;

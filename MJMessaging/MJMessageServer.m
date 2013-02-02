@@ -43,7 +43,9 @@
     NSMutableArray *_connectedSockets;
     NSNetService *_service;
     NSMutableArray *_clients;
-    
+    NSString *_serviceName;
+    NSString *_serviceType;
+    BOOL _suspended;
     uint16_t _port;
 }
 
@@ -101,6 +103,10 @@
             [self.delegate serverDidNotStart:self error:error];
         }
     }
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(serverDidStart:)]) {
+        [self.delegate serverDidStart:self];
+    }
 }
 
 - (void)stop
@@ -123,12 +129,22 @@
 
 - (void)resumeServer
 {
-    [self startWithPort:_port];
+    if (_suspended) {
+        [self startWithPort:_port];
+        if (_serviceName && _serviceType) {
+            [self publishServiceWithName:_serviceName type:_serviceType];
+        }
+        _suspended = NO;
+    }
 }
 
 - (void)suspendServer
 {
-    [self stop];
+    if (!_suspended) {
+        [self unpublishService];
+        [self stop];
+        _suspended = YES;
+    }
 }
 
 #pragma mark - GCDAsyncSocket delegate methods
@@ -236,11 +252,15 @@
 
 - (void)publishServiceWithName:(NSString *)name type:(NSString *)type domain:(NSString *)domain
 {
+    [self unpublishService];
+    
     if (_serverSocket) {
         _service = [[NSNetService alloc] initWithDomain:domain
                                                    type:type
                                                    name:name
                                                    port:_serverSocket.localPort];
+        _serviceName = [name copy];
+        _serviceType = [type copy];
         [_service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         _service.delegate = self;
         [_service publish];
