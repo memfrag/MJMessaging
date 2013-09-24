@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B0D5C7F17F1944E00292AA2 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5B0D5C8017F1946600292AA2 /* MJMessageClientProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5B0D5C8117F1947200292AA2 /* MJMessaging.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3B31594978C0051E0E8 /* MJMessaging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B74A33816BD25F90062B8FA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B74A33716BD25F90062B8FA /* Cocoa.framework */; };
 		5B74A34216BD25F90062B8FA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B74A34016BD25F90062B8FA /* InfoPlist.strings */; };
 		5B74A34616BD25F90062B8FA /* MJMessagingMac.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B74A34516BD25F90062B8FA /* MJMessagingMac.m */; };
@@ -14,11 +17,11 @@
 		5B74A34B16BD26A60062B8FA /* MJMessageClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C715949A960051E0E8 /* MJMessageClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B74A34C16BD26A60062B8FA /* MJMessageServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BEAC3AF1594978C0051E0E8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAC3AE1594978C0051E0E8 /* Foundation.framework */; };
-		5BEAC3C41594996A0051E0E8 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */; };
+		5BEAC3C41594996A0051E0E8 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BEAC3C51594996A0051E0E8 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3C31594996A0051E0E8 /* GCDAsyncSocket.m */; };
 		5BEAC3C915949A960051E0E8 /* MJMessageClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C715949A960051E0E8 /* MJMessageClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BEAC3CA15949A960051E0E8 /* MJMessageClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3C815949A960051E0E8 /* MJMessageClient.m */; };
-		5BEAC3D115949AC60051E0E8 /* MJMessageClientProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */; };
+		5BEAC3D115949AC60051E0E8 /* MJMessageClientProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BEAC3D215949AC60051E0E8 /* MJMessageClientProxyImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CD15949AC60051E0E8 /* MJMessageClientProxyImpl.h */; };
 		5BEAC3D315949AC60051E0E8 /* MJMessageClientProxyImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3CE15949AC60051E0E8 /* MJMessageClientProxyImpl.m */; };
 		5BEAC3D415949AC60051E0E8 /* MJMessageServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -188,9 +191,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B0D5C8017F1946600292AA2 /* MJMessageClientProxy.h in Headers */,
 				5B74A34A16BD26A60062B8FA /* MJMessaging.h in Headers */,
 				5B74A34B16BD26A60062B8FA /* MJMessageClient.h in Headers */,
 				5B74A34C16BD26A60062B8FA /* MJMessageServer.h in Headers */,
+				5B0D5C7F17F1944E00292AA2 /* GCDAsyncSocket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +207,7 @@
 				5BEAC3C915949A960051E0E8 /* MJMessageClient.h in Headers */,
 				5BEAC3D115949AC60051E0E8 /* MJMessageClientProxy.h in Headers */,
 				5BEAC3D215949AC60051E0E8 /* MJMessageClientProxyImpl.h in Headers */,
+				5B0D5C8117F1947200292AA2 /* MJMessaging.h in Headers */,
 				5BEAC3D415949AC60051E0E8 /* MJMessageServer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
