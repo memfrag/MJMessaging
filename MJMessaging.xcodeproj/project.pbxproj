@@ -16,12 +16,12 @@
 		5BEAC3AF1594978C0051E0E8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAC3AE1594978C0051E0E8 /* Foundation.framework */; };
 		5BEAC3C41594996A0051E0E8 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C21594996A0051E0E8 /* GCDAsyncSocket.h */; };
 		5BEAC3C51594996A0051E0E8 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3C31594996A0051E0E8 /* GCDAsyncSocket.m */; };
-		5BEAC3C915949A960051E0E8 /* MJMessageClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C715949A960051E0E8 /* MJMessageClient.h */; };
+		5BEAC3C915949A960051E0E8 /* MJMessageClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3C715949A960051E0E8 /* MJMessageClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BEAC3CA15949A960051E0E8 /* MJMessageClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3C815949A960051E0E8 /* MJMessageClient.m */; };
 		5BEAC3D115949AC60051E0E8 /* MJMessageClientProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CC15949AC60051E0E8 /* MJMessageClientProxy.h */; };
 		5BEAC3D215949AC60051E0E8 /* MJMessageClientProxyImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CD15949AC60051E0E8 /* MJMessageClientProxyImpl.h */; };
 		5BEAC3D315949AC60051E0E8 /* MJMessageClientProxyImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3CE15949AC60051E0E8 /* MJMessageClientProxyImpl.m */; };
-		5BEAC3D415949AC60051E0E8 /* MJMessageServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */; };
+		5BEAC3D415949AC60051E0E8 /* MJMessageServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEAC3CF15949AC60051E0E8 /* MJMessageServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BEAC3D515949AC60051E0E8 /* MJMessageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAC3D015949AC60051E0E8 /* MJMessageServer.m */; };
 /* End PBXBuildFile section */
 
@@ -251,7 +251,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MJ;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Martin Johannesson";
 			};
 			buildConfigurationList = 5BEAC3A51594978B0051E0E8 /* Build configuration list for PBXProject "MJMessaging" */;
@@ -320,7 +320,6 @@
 		5B74A34816BD25F90062B8FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -352,7 +351,6 @@
 		5B74A34916BD25F90062B8FA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -385,8 +383,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -397,10 +400,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -409,13 +416,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
@@ -426,13 +441,13 @@
 		5BEAC3B91594978C0051E0E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/MJMessaging.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MJMessaging/MJMessaging-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
@@ -441,13 +456,13 @@
 		5BEAC3BA1594978C0051E0E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/MJMessaging.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MJMessaging/MJMessaging-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
@@ -463,6 +478,7 @@
 				5B74A34916BD25F90062B8FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5BEAC3A51594978B0051E0E8 /* Build configuration list for PBXProject "MJMessaging" */ = {
 			isa = XCConfigurationList;
